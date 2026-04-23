@@ -10,12 +10,14 @@ export class PokemonListPage implements OnInit {
   pokemons: any[] = [];
   loading = false;
 
-  constructor(private pokemonService: PokemonService) {}
+  constructor(private pokemonService: PokemonService) { }
 
   ngOnInit() {
     this.fetchPokemons();
-    
+
   }
+
+  public results = [...this.pokemons];
 
   fetchPokemons() {
     this.loading = true;
@@ -29,5 +31,11 @@ export class PokemonListPage implements OnInit {
         this.loading = false;
       },
     });
+  }
+
+  handleInput(event: Event) {
+    const target = event.target as HTMLIonSearchbarElement;
+    const query = target.value?.toLowerCase() || '';
+    this.results = this.pokemons.filter((d) => d.toLowerCase().includes(query));
   }
 }
